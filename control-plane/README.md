@@ -41,8 +41,8 @@ Start as a **single project** (`src/ControlPlane.Api`) plus a test project. Spli
 ### Phase 1 — the uptime monitor
 - [x] Scaffold solution: `src/ControlPlane.Api`, `tests/ControlPlane.Tests`
 - [x] EF Core entities + initial migration: `monitors`, `check_results`, `incidents`, `api_keys`, `metrics` (empty until Phase 2)
-- [ ] Monitors CRUD endpoints (+ validation)
-- [ ] Check scheduler `BackgroundService`: pick due monitors, run HTTP checks concurrently, store results
+- [x] Monitors CRUD endpoints (+ validation)
+- [x] Check scheduler `BackgroundService`: pick due monitors, run HTTP checks concurrently, store results
 - [ ] Incident logic: open after N consecutive failures, close on first success
 - [ ] Uptime/latency summary endpoint for the dashboard (e.g. last 24h/7d/30d)
 - [ ] Webhook notifier on incident open/close

@@ -1,42 +1,27 @@
 using System.Net;
 using ControlPlane.Api.Data;
-using Microsoft.AspNetCore.Mvc.Testing;
+using ControlPlane.Tests.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Testcontainers.PostgreSql;
 
 namespace ControlPlane.Tests;
 
-/// Boots the real app against a throwaway Postgres container, exactly as
-/// docker compose does: migrations apply on startup.
-public sealed class HealthzTests : IAsyncLifetime
+[Collection(nameof(PostgresCollection))]
+public sealed class HealthzTests(PulseApiFixture fixture) : IAsyncLifetime
 {
-    private readonly PostgreSqlContainer _postgres = new PostgreSqlBuilder("postgres:17").Build();
+    public Task InitializeAsync() => fixture.ResetDatabaseAsync();
 
-    private WebApplicationFactory<Program> _factory = null!;
-
-    public async Task InitializeAsync()
-    {
-        await _postgres.StartAsync();
-        _factory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
-            builder.UseSetting("ConnectionStrings:Default", _postgres.GetConnectionString()));
-    }
-
-    public async Task DisposeAsync()
-    {
-        await _factory.DisposeAsync();
-        await _postgres.DisposeAsync();
-    }
+    public Task DisposeAsync() => Task.CompletedTask;
 
     [Fact]
     public async Task Healthz_returns_200_and_migrations_are_applied()
     {
-        using var client = _factory.CreateClient();
+        using var client = fixture.CreateClient();
 
         var response = await client.GetAsync("/healthz");
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
-        using var scope = _factory.Services.CreateScope();
+        using var scope = fixture.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<PulseDbContext>();
 
         var applied = await db.Database.GetAppliedMigrationsAsync();

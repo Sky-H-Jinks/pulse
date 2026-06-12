@@ -5,8 +5,8 @@
   // language servers stay quiet instead of erroring on startup.
   // ============================================================
 
-  // --- Phase 1: C# (uncomment after `dotnet new sln` in control-plane/) ---
-  // "dotnet.defaultSolution": "control-plane/ControlPlane.sln",
+  // --- Phase 1: C# ---
+  "dotnet.defaultSolution": "control-plane/ControlPlane.slnx",
 
   // --- Phase 1: dashboard ---
   "eslint.workingDirectories": ["dashboard"],
