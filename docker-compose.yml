@@ -1,0 +1,58 @@
+# Pulse — local development stack
+# Phase 0: only Postgres runs. Uncomment each service as its Dockerfile lands.
+
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: pulse
+      POSTGRES_PASSWORD: pulse_dev   # local dev only
+      POSTGRES_DB: pulse
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pulse"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # --- Phase 1 ---------------------------------------------------------
+  control-plane:
+    build: ./control-plane
+    ports: ["5000:5000"]
+    environment:
+      ConnectionStrings__Default: "Host=postgres;Database=pulse;Username=pulse;Password=pulse_dev"
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  # dashboard:
+  #   build: ./dashboard
+  #   ports: ["5173:80"]
+  #   depends_on: [control-plane]
+
+  # --- Phase 3 ---------------------------------------------------------
+  # ingest:
+  #   build: ./ingest
+  #   ports: ["8080:8080"]
+  #   environment:
+  #     DATABASE_URL: "postgres://pulse:pulse_dev@postgres/pulse"
+  #   depends_on:
+  #     postgres: { condition: service_healthy }
+
+  # --- Phase 4 ---------------------------------------------------------
+  # intelligence:
+  #   build: ./intelligence
+  #   ports: ["8000:8000"]
+  #   environment:
+  #     DATABASE_URL: "postgres://pulse:pulse_dev@postgres/pulse"
+  #     ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+  #   depends_on:
+  #     postgres: { condition: service_healthy }
+
+  # Note: the Go agent normally runs on real hosts, not in compose —
+  # but a demo agent container monitoring this very stack is a nice touch.
+
+volumes:
+  pgdata:

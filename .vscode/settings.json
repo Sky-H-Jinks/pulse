@@ -1,0 +1,38 @@
+{
+  // ============================================================
+  // Settings are phase-gated: uncomment each block as the
+  // service it configures comes into existence. Until then the
+  // language servers stay quiet instead of erroring on startup.
+  // ============================================================
+
+  // --- Phase 1: C# (uncomment after `dotnet new sln` in control-plane/) ---
+  // "dotnet.defaultSolution": "control-plane/ControlPlane.sln",
+
+  // --- Phase 1: dashboard ---
+  "eslint.workingDirectories": ["dashboard"],
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+
+  // --- Phase 2: Go ---
+  // gopls handles the subfolder module via the go.work file at repo root.
+  // Create it once agent/ has a module:  go work init ./agent
+
+  // --- Phase 3: Rust (uncomment once ingest/Cargo.toml exists) ---
+  // "rust-analyzer.linkedProjects": ["ingest/Cargo.toml"],
+
+  // --- Phase 4: Python ---
+  // After `uv sync` in intelligence/, run "Python: Select Interpreter"
+  // from the command palette and pick intelligence/.venv — VS Code
+  // remembers the choice for this workspace.
+
+  // --- Shared ---
+  "editor.formatOnSave": true,
+  "files.trimTrailingWhitespace": true,
+  "search.exclude": {
+    "**/bin": true,
+    "**/obj": true,
+    "**/target": true,
+    "**/node_modules": true,
+    "**/.venv": true
+  }
+}

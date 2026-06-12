@@ -1,0 +1,35 @@
+# --- .NET (control-plane) ---
+bin/
+obj/
+*.user
+.vs/
+
+# --- Node / React (dashboard) ---
+node_modules/
+dist/
+*.local
+
+# --- Python (intelligence) ---
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# --- Rust (ingest) ---
+target/
+# Cargo.lock is COMMITTED for binaries — do not ignore it
+
+# --- Go (agent) ---
+agent/agent
+agent/agent.exe
+agent/dist/
+
+# --- IDE / OS ---
+.idea/
+.DS_Store
+
+# --- Secrets / env ---
+.env
+.env.*
+!.env.example

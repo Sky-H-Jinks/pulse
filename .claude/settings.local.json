@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(dotnet --list-sdks; docker --version)",
+      "PowerShell(dotnet add *)",
+      "PowerShell(dotnet build *)"
+    ]
+  }
+}

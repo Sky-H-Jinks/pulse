@@ -1,0 +1,23 @@
+{
+  // VS Code prompts "install recommended extensions?" on first open of this folder
+  "recommendations": [
+    // C# — control-plane
+    "ms-dotnettools.csdevkit",
+    // Go — agent
+    "golang.go",
+    // Rust — ingest
+    "rust-lang.rust-analyzer",
+    "vadimcn.vscode-lldb",          // debugger for Rust (CodeLLDB)
+    // Python — intelligence
+    "ms-python.python",
+    "charliermarsh.ruff",
+    // TypeScript/React — dashboard
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    // Shared
+    "ms-azuretools.vscode-docker",
+    "tamasfe.even-better-toml",     // Cargo.toml + pyproject.toml
+    "anthropic.claude-code"
+  ]
+}

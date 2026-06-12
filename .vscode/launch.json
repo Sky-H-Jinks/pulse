@@ -1,0 +1,49 @@
+{
+  // One debugger entry per service — pick from the Run & Debug dropdown.
+  // Paths assume the layouts suggested in each service README; adjust if
+  // your scaffolding differs.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // Requires C# Dev Kit + the solution to exist (Phase 1)
+      "name": "control-plane (C#)",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/control-plane/src/ControlPlane.Api/ControlPlane.Api.csproj"
+    },
+    {
+      // Launches Vite separately first (task: "dev: dashboard"), then
+      // opens a debuggable browser against it
+      "name": "dashboard (browser)",
+      "type": "msedge",
+      "request": "launch",
+      "url": "http://localhost:5173",
+      "webRoot": "${workspaceFolder}/dashboard"
+    },
+    {
+      "name": "agent (Go)",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/agent"
+    },
+    {
+      // CodeLLDB builds via cargo and debugs the result. The zero-config
+      // alternative: click the "Debug" codelens rust-analyzer shows above
+      // fn main().
+      "name": "ingest (Rust)",
+      "type": "lldb",
+      "request": "launch",
+      "cargo": { "args": ["build"] },
+      "cwd": "${workspaceFolder}/ingest"
+    },
+    {
+      "name": "intelligence (Python)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["app.main:app", "--reload", "--port", "8000"],
+      "cwd": "${workspaceFolder}/intelligence"
+    }
+  ]
+}
